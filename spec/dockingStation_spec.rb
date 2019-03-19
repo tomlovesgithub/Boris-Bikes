@@ -11,7 +11,7 @@ describe DockingStation do
 
   it "docks a bike" do
   bike = Bike.new
-  expect(subject.dock(bike)).to eq bike
+  expect(subject.dock(bike)).to eq [bike]
 end
 
   it "raises an error when release_bike and no bike available" do
@@ -19,5 +19,15 @@ end
     expect { subject.release_bike }.to raise_error("No Bikes Available")
   end
 
+  it "raises an error when docking bike and bike already in dock" do
+    bike = Bike.new
+    subject.dock(bike)
+    expect { subject.dock(bike) }.to raise_error("No dock space Available")
+  end
+
+  it "raises an error if docking a bike and the station is full i.e greater than 20 already docked" do
+    20.times { subject.dock Bike.new }
+    expect { 20.times { subject.dock Bike.new } }.to raise_error("No dock space Available")
+  end
 
 end
