@@ -2,21 +2,22 @@ require_relative 'bike.rb'
 
 class DockingStation
 
-  attr_reader :bike
+  attr_reader :bike_collection
+
   def initialize
     @bike_collection = []
   end
 
   def release_bike
-    unless (@bike_collection.is_a? Bike) && (@bike_collection.count == 0)
+    if (@bike_collection.length == 0)
       raise "No Bikes Available"
+    else
+      @bike_collection.pop
     end
-    @bike_collection.pop
   end
 
   def dock(bike)
-
-    if (@bike_collection.include? Bike) && (@bike_collection.count >= 20)
+    if (@bike_collection.length >= 20)
       raise "No dock space Available"
     else
       @bike_collection.push(bike)
